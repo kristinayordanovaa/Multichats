@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiChats - Livestream Chat Aggregator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="settingsToggle" class="settings-btn" title="Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m0-6h6m-6 0H6"></path>
+            <path d="M4.22 4.22l1.42 1.42m12.72 0l1.42-1.42m0 16.36l-1.42-1.42m-12.72 0l-1.42 1.42"></path>
+        </svg>
+    </button>
+
+    <div id="settingsPanel" class="settings-panel">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2>🎮 MultiChats Settings</h2>
+                <button id="closeSettings" class="btn-close">✕</button>
+            </div>
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="streamInput" 
+                    placeholder="Paste Twitch, YouTube, or Kick stream/chat URL..."
+                    autocomplete="off"
+                >
+                <button id="addChatBtn" class="btn-primary">Add Chat</button>
+            </div>
+            <div class="help-text">
+                <p>Supported formats:</p>
+                <ul>
+                    <li>Twitch: twitch.tv/channel or twitch.tv/popout/channel/chat</li>
+                    <li>YouTube: youtube.com/watch?v=VIDEO_ID or youtube.com/live_chat?v=VIDEO_ID</li>
+                    <li>Kick: kick.com/channel or kick.com/channel/chatroom</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div id="chatsContainer" class="chats-container">
+            <div class="empty-state">
+                <div class="empty-icon">💬</div>
+                <h2>No chats added yet</h2>
+                <p>Add your first livestream chat URL above to get started</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
