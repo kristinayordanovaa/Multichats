@@ -24,12 +24,57 @@ class MultiChats {
         this.settingsToggle.addEventListener('click', () => this.toggleSettings());
         this.closeSettings.addEventListener('click', () => this.toggleSettings());
 
+        // Feedback functionality
+        this.feedbackText = document.getElementById('feedbackText');
+        this.sendFeedbackBtn = document.getElementById('sendFeedbackBtn');
+        this.feedbackStatus = document.getElementById('feedbackStatus');
+        this.sendFeedbackBtn.addEventListener('click', () => this.sendFeedback());
+
         // Load saved chats from localStorage
         this.loadChats();
     }
 
     toggleSettings() {
         this.settingsPanel.classList.toggle('open');
+    }
+
+    sendFeedback() {
+        const feedback = this.feedbackText.value.trim();
+        
+        if (!feedback) {
+            this.feedbackStatus.textContent = 'Please enter your feedback first.';
+            this.feedbackStatus.className = 'feedback-status error';
+            return;
+        }
+
+        // Google Form submission
+        const formId = '1FAIpQLSehCZ3oYapk_N8FhYsnI6jNe0wao2p1VT24fzJhHcHg15NYBQ';
+        const entryId = 'entry.1178338227';
+        const formUrl = `https://docs.google.com/forms/d/e/${formId}/formResponse`;
+
+        // Create form data
+        const formData = new FormData();
+        formData.append(entryId, feedback);
+
+        // Submit using fetch with no-cors mode (Google Forms doesn't return proper CORS headers)
+        fetch(formUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        }).then(() => {
+            // Show success message (we can't check response due to no-cors)
+            this.feedbackStatus.textContent = '✓ Thank you for your feedback!';
+            this.feedbackStatus.className = 'feedback-status success';
+            this.feedbackText.value = '';
+
+            // Hide status after 3 seconds
+            setTimeout(() => {
+                this.feedbackStatus.className = 'feedback-status';
+            }, 3000);
+        }).catch(() => {
+            this.feedbackStatus.textContent = 'Failed to send. Please try again.';
+            this.feedbackStatus.className = 'feedback-status error';
+        });
     }
 
     parseStreamUrl(url) {
@@ -105,12 +150,13 @@ class MultiChats {
 
         // TikTok
         if (url.includes('tiktok.com')) {
-            const tiktokMatch = url.match(/tiktok\.com\/@([^\/\?]+)\/live/);
+            const tiktokMatch = url.match(/tiktok\.com\/@([^\/\?]+)(?:\/live)?/);
             if (tiktokMatch) {
                 const username = tiktokMatch[1];
                 return {
                     platform: 'TikTok',
                     channel: `@${username}`,
+                    embedUrl: `https://www.tiktok.com/embed/@${username}/live`,
                     popoutUrl: `https://www.tiktok.com/@${username}/live`,
                     color: '#000000',
                     needsPopout: true
@@ -165,49 +211,30 @@ class MultiChats {
         chatCard.className = 'chat-card';
         chatCard.dataset.chatId = chat.id;
 
-        // If it's TikTok, only show popup button (no iframe)
-        if (chat.platform === 'TikTok') {
-            chatCard.innerHTML = `
-                <div class="chat-header" style="background: ${chat.color}">
-                    <div class="chat-info">
-                        <div class="chat-platform">${chat.platform}</div>
-                        <div class="chat-channel">${chat.channel}</div>
-                    </div>
-                    <div class="header-buttons">
-                        <button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>
-                        <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
-                    </div>
-                </div>
-                <div class="chat-iframe-container" style="display: flex; align-items: center; justify-content: center; height: 100%; background: #222; color: #fff; font-size: 1.1rem;">
-                    TikTok chat can only be opened in a popup window.
-                </div>
-            `;
-        } else {
-            // If it's Twitch and needs popout, add a popup button
-            const popoutButton = chat.needsPopout ? 
-                `<button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>` : '';
+        // If platform needs popout, add a popup button
+        const popoutButton = chat.needsPopout ? 
+            `<button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>` : '';
 
-            chatCard.innerHTML = `
-                <div class="chat-header" style="background: ${chat.color}">
-                    <div class="chat-info">
-                        <div class="chat-platform">${chat.platform}</div>
-                        <div class="chat-channel">${chat.channel}</div>
-                    </div>
-                    <div class="header-buttons">
-                        ${popoutButton}
-                        <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
-                    </div>
+        chatCard.innerHTML = `
+            <div class="chat-header" style="background: ${chat.color}">
+                <div class="chat-info">
+                    <div class="chat-platform">${chat.platform}</div>
+                    <div class="chat-channel">${chat.channel}</div>
                 </div>
-                <div class="chat-iframe-container">
-                    <iframe 
-                        class="chat-iframe" 
-                        src="${chat.embedUrl}"
-                        allow="autoplay; encrypted-media"
-                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                    ></iframe>
+                <div class="header-buttons">
+                    ${popoutButton}
+                    <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
                 </div>
-            `;
-        }
+            </div>
+            <div class="chat-iframe-container">
+                <iframe 
+                    class="chat-iframe" 
+                    src="${chat.embedUrl}"
+                    allow="autoplay; encrypted-media; clipboard-write"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox allow-modals"
+                ></iframe>
+            </div>
+        `;
 
         this.chatsContainer.appendChild(chatCard);
     }
