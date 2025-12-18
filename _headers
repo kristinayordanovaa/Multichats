@@ -1,0 +1,13 @@
+# Block common security probe paths
+/.env
+  X-Robots-Tag: noindex
+  
+/.env.*
+  X-Robots-Tag: noindex
+
+# Security headers for all pages
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
