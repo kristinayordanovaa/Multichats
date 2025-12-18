@@ -211,6 +211,12 @@ class MultiChats {
         chatCard.className = 'chat-card';
         chatCard.dataset.chatId = chat.id;
 
+        // Skip rendering if no embedUrl (corrupted/old data)
+        if (!chat.embedUrl) {
+            console.warn('Chat missing embedUrl:', chat);
+            return;
+        }
+
         // If platform needs popout, add a popup button
         const popoutButton = chat.needsPopout ? 
             `<button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>` : '';
