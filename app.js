@@ -103,6 +103,21 @@ class MultiChats {
             }
         }
 
+        // TikTok
+        if (url.includes('tiktok.com')) {
+            const tiktokMatch = url.match(/tiktok\.com\/@([^\/\?]+)\/live/);
+            if (tiktokMatch) {
+                const username = tiktokMatch[1];
+                return {
+                    platform: 'TikTok',
+                    channel: `@${username}`,
+                    popoutUrl: `https://www.tiktok.com/@${username}/live`,
+                    color: '#000000',
+                    needsPopout: true
+                };
+            }
+        }
+
         return null;
     }
 
@@ -150,30 +165,49 @@ class MultiChats {
         chatCard.className = 'chat-card';
         chatCard.dataset.chatId = chat.id;
 
-        // If it's Twitch and needs popout, add a popup button
-        const popoutButton = chat.needsPopout ? 
-            `<button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>` : '';
+        // If it's TikTok, only show popup button (no iframe)
+        if (chat.platform === 'TikTok') {
+            chatCard.innerHTML = `
+                <div class="chat-header" style="background: ${chat.color}">
+                    <div class="chat-info">
+                        <div class="chat-platform">${chat.platform}</div>
+                        <div class="chat-channel">${chat.channel}</div>
+                    </div>
+                    <div class="header-buttons">
+                        <button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>
+                        <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
+                    </div>
+                </div>
+                <div class="chat-iframe-container" style="display: flex; align-items: center; justify-content: center; height: 100%; background: #222; color: #fff; font-size: 1.1rem;">
+                    TikTok chat can only be opened in a popup window.
+                </div>
+            `;
+        } else {
+            // If it's Twitch and needs popout, add a popup button
+            const popoutButton = chat.needsPopout ? 
+                `<button class="btn-popout" onclick="multiChats.openPopout(${chat.id})" title="Open in popup window">⧉</button>` : '';
 
-        chatCard.innerHTML = `
-            <div class="chat-header" style="background: ${chat.color}">
-                <div class="chat-info">
-                    <div class="chat-platform">${chat.platform}</div>
-                    <div class="chat-channel">${chat.channel}</div>
+            chatCard.innerHTML = `
+                <div class="chat-header" style="background: ${chat.color}">
+                    <div class="chat-info">
+                        <div class="chat-platform">${chat.platform}</div>
+                        <div class="chat-channel">${chat.channel}</div>
+                    </div>
+                    <div class="header-buttons">
+                        ${popoutButton}
+                        <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
+                    </div>
                 </div>
-                <div class="header-buttons">
-                    ${popoutButton}
-                    <button class="btn-remove" onclick="multiChats.removeChat(${chat.id})">✕</button>
+                <div class="chat-iframe-container">
+                    <iframe 
+                        class="chat-iframe" 
+                        src="${chat.embedUrl}"
+                        allow="autoplay; encrypted-media"
+                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    ></iframe>
                 </div>
-            </div>
-            <div class="chat-iframe-container">
-                <iframe 
-                    class="chat-iframe" 
-                    src="${chat.embedUrl}"
-                    allow="autoplay; encrypted-media"
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                ></iframe>
-            </div>
-        `;
+            `;
+        }
 
         this.chatsContainer.appendChild(chatCard);
     }
