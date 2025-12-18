@@ -1,0 +1,18 @@
+# robots.txt for streammultichat.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://streammultichat.app/sitemap.xml
+
+# Allow all crawlers to index the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block sensitive files (none currently, but good practice)
+Disallow: /*.json$
+Allow: /site.webmanifest
