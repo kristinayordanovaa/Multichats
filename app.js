@@ -142,8 +142,10 @@ class MultiChats {
                 return {
                     platform: 'Kick',
                     channel: channel,
-                    embedUrl: `https://kick.com/${channel}/chatroom`,
-                    color: '#53FC18'
+                    embedUrl: `https://player.kick.com/${channel}?allowfullscreen=true`,
+                    popoutUrl: `https://kick.com/${channel}`,
+                    color: '#53FC18',
+                    needsPopout: true
                 };
             }
         }
@@ -236,8 +238,9 @@ class MultiChats {
                 <iframe 
                     class="chat-iframe" 
                     src="${chat.embedUrl}"
-                    allow="autoplay; encrypted-media; clipboard-write"
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox allow-modals"
+                    allow="autoplay; encrypted-media; clipboard-write; clipboard-read"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox allow-modals allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                    allowfullscreen
                 ></iframe>
             </div>
         `;
