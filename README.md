@@ -43,22 +43,6 @@ A web application that combines livestream chats from multiple platforms (Twitch
 ### TikTok
 - `https://tiktok.com/@username/live`
 
-## Local Development
-
-No build process or dependencies required! For best results, use a local server:
-
-```bash
-# Using Node.js (recommended)
-npx serve
-
-# Using Python 3
-python3 -m http.server 8000
-
-# Using PHP
-php -S localhost:8000
-```
-
-Then open `http://localhost:8000` in your browser.
 
 ## Technical Details
 
@@ -68,49 +52,6 @@ Then open `http://localhost:8000` in your browser.
 - **Responsive Grid**: Automatically adjusts layout based on screen size
 - **Google Forms Integration**: Feedback submissions go directly to Google Sheets
 
-## Browser Compatibility
-
-Works in all modern browsers:
-- Chrome/Edge (recommended)
-- Firefox
-- Safari
-- Opera
-
-## Hosting
-
-### Recommended: Netlify
-1. Drag and drop the folder to [Netlify Drop](https://app.netlify.com/drop)
-2. Get instant deployment with automatic HTTPS
-3. Twitch/YouTube embeds work perfectly on Netlify domains
-
-### GitHub Pages
-1. Push to GitHub
-2. Enable GitHub Pages in repository settings
-3. Access via `https://yourusername.github.io/multichats`
-
-### Vercel
-1. Connect your GitHub repo to Vercel
-2. Auto-deploys on every push
-
-## Troubleshooting
-
-**Chat not loading?**
-- Ensure the stream is live (especially for YouTube)
-- Check if the channel name is correct
-- Some streams may have embedding disabled by the streamer
-
-**Twitch chat shows "refused to connect"?**
-- This happens when opening HTML directly (file://)
-- Solution: Use a local server or deploy to Netlify/Vercel
-- The app automatically sets the correct `parent` parameter for your domain
-
-**Can't log in to chat?**
-- Make sure you're already logged into the platform in another tab
-- Try using the popup button (⧉) for a better login experience
-
-**TikTok not embedding properly?**
-- TikTok has strict embedding policies
-- Use the popup button (⧉) for best experience
 
 ## Privacy & Data
 
@@ -127,11 +68,3 @@ Found a bug or have a suggestion?
 3. Type your message and click "Send Feedback"
 
 Your feedback goes directly to our Google Form for review.
-
-## License
-
-MIT License - Feel free to use and modify as needed!
-
----
-
-Made with ❤️ for streamers and viewers who want to monitor multiple chats at once. 🎮
