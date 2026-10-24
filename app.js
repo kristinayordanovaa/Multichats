@@ -30,12 +30,32 @@ class MultiChats {
         this.feedbackStatus = document.getElementById('feedbackStatus');
         this.sendFeedbackBtn.addEventListener('click', () => this.sendFeedback());
 
+        this.themeSelect = document.getElementById('chatTheme');
+        this.theme = 'dark';
+        try { if (localStorage.getItem('multiChatsTheme') === 'light') this.theme = 'light'; } catch {}
+        document.documentElement.dataset.theme = this.theme;
+        this.themeSelect.value = this.theme;
+        this.themeSelect.addEventListener('change', () => this.setTheme(this.themeSelect.value));
+
         // Load saved chats from localStorage
         this.loadChats();
         this.setSettings(this.chats.length === 0);
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && this.settingsPanel.classList.contains('open')) this.setSettings(false);
         });
+    }
+
+    setTheme(theme) {
+        this.theme = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = this.theme;
+        this.themeSelect.value = this.theme;
+        this.chats = this.chats.map(chat => ({...restoreChat(chat, window.location.hostname || 'localhost', this.theme), id: chat.id}));
+        this.chatsContainer.replaceChildren();
+        for (const chat of this.chats) this.renderChat(chat);
+        if (!this.chats.length) this.showEmptyState();
+        this.saveChats();
+        try { localStorage.setItem('multiChatsTheme', this.theme); }
+        catch { this.storageStatus.textContent = 'Theme applied for this session, but your browser could not save it.'; }
     }
 
     toggleSettings() {
@@ -86,7 +106,7 @@ class MultiChats {
     }
 
     parseStreamUrl(url) {
-        return parseStreamUrl(url, window.location.hostname || 'localhost');
+        return parseStreamUrl(url, window.location.hostname || 'localhost', this.theme);
     }
 
     addChat() {
@@ -261,7 +281,7 @@ class MultiChats {
             if (!Array.isArray(entries)) throw new Error('Invalid saved chats');
             let skipped = 0;
             for (const entry of entries) {
-                const data = restoreChat(entry, window.location.hostname || 'localhost');
+                const data = restoreChat(entry, window.location.hostname || 'localhost', this.theme);
                 if (!data) { skipped++; continue; }
                 if (this.chats.some(chat => chat.platform === data.platform && chat.channel === data.channel)) continue;
                 const chat = {id: this.chatIdCounter++, ...data};

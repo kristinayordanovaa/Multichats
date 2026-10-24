@@ -481,7 +481,21 @@ body {
 .app-toolbar h1 { font-size: 1.15rem; }
 .container { padding-top: 70px; }
 
-/* YouTube can render a transparent chat surface while using light text.
-   Keep its backing surface dark and request the matching YouTube theme. */
-.youtube-chat { background: #0f0f0f; color-scheme: dark; }
-.youtube-chat .chat-iframe { background: #0f0f0f; color-scheme: dark; }
+/* Match the backing surface and inherited color scheme to each embed theme. */
+:root { color-scheme: dark; --page: #1a1a2e; --panel: #202235; --surface: #0f0f0f; --text: #f5f5f5; --muted: #c5c9d8; --field: #151625; --border: #52566e; --link: #c5d0ff; }
+:root[data-theme="light"] { color-scheme: light; --page: #eef0f6; --panel: #fff; --surface: #fff; --text: #111; --muted: #333; --field: #fff; --border: #777; --link: #253b92; }
+body { background: var(--page); color: var(--text); }
+.settings-panel, .chat-card { background: var(--panel); }
+.chat-iframe-container, .chat-iframe { background: var(--surface); color-scheme: inherit; }
+.app-toolbar, .empty-state, .chat-notice { color: var(--text); }
+.chat-fallback { color: var(--link); }
+.settings-header h2, .feedback-section h3, .info-section h3, .help-text p { color: var(--text); }
+.feedback-section p, .info-section p, .help-text { color: var(--muted); }
+.help-text, .info-section { background: var(--field); }
+#streamInput, #feedbackText, #chatTheme { background: var(--field); color: var(--text); border: 2px solid var(--border); }
+#streamInput::placeholder, #feedbackText::placeholder { color: var(--muted); }
+.btn-close { background: var(--field); color: var(--text); }
+.theme-control { margin-bottom: 24px; }
+.theme-control label { display: block; margin-bottom: 8px; font-weight: 600; }
+.theme-control select { width: 100%; padding: 12px; border-radius: 8px; font: inherit; }
+.theme-control p { color: var(--muted); font-size: .85rem; line-height: 1.5; margin-top: 8px; }

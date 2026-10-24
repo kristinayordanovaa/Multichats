@@ -60,3 +60,12 @@ test('YouTube theme is explicit for new and legacy chats', () => {
         assert.equal(url.searchParams.get('embed_domain'), 'preview.example');
     }
 });
+
+test('both platforms generate matching dark and light chat URLs', () => {
+    for (const theme of ['light', 'dark']) {
+        const twitch = parse('twitch.tv/twitchdev', 'preview.example', theme);
+        assert.equal(new URL(twitch.embedUrl).searchParams.has('darkpopout'), theme === 'dark');
+        const youtube = restoreChat({platform: 'YouTube', channel: '3wGwyg-IvnQ'}, 'preview.example', theme);
+        assert.equal(new URL(youtube.embedUrl).searchParams.get('dark_theme'), theme === 'dark' ? '1' : '0');
+    }
+});

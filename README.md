@@ -17,3 +17,7 @@ Feedback is submitted to the existing Google Form. Its cross-origin response is 
 ## Deployment
 
 See DEPLOYMENT.md. Keep production on the current main commit until a preview has passed review. GitHub Actions checks syntax and URL/storage regression tests.
+
+## Appearance
+
+Settings → Chat appearance selects Dark or Light for the app and Twitch/YouTube embeds. Dark is the default; the selection is saved in localStorage as `multiChatsTheme`. Changing it reloads existing chat frames and applies to newly added and restored chats. YouTube uses an explicit dark_theme value and Twitch uses darkpopout in dark mode. The iframe background and color scheme match the selected theme to avoid invisible text on transparent surfaces. Platforms retain their own username, badge, and emoji colors. External Kick/TikTok pages follow their platform settings.

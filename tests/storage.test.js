@@ -45,3 +45,26 @@ test('saving preserves rollback fields and handles quota failures without throwi
     assert.doesNotThrow(() => denied.app.saveChats());
     assert.match(denied.status.textContent, /could not save/);
 });
+
+test('switching theme rebuilds existing chats, preserves IDs and saves preference', () => {
+    const values = new Map();
+    const root = {dataset: {}};
+    const context = vm.createContext({restoreChat, window: {location: {hostname: 'preview.example'}},
+        document: {documentElement: root}, localStorage: {setItem: (key, value) => values.set(key, value)}});
+    vm.runInContext(source + '\nthis.App = MultiChats;', context);
+    const app = Object.create(context.App.prototype);
+    const rendered = [];
+    Object.assign(app, {themeSelect: {}, chatsContainer: {replaceChildren() {rendered.length = 0;}},
+        storageStatus: {textContent: ''}, renderChat(chat) {rendered.push(chat);},
+        chats: [{id: 4, platform: 'Twitch', channel: 'example'}, {id: 7, platform: 'YouTube', channel: '3wGwyg-IvnQ'}]});
+    for (const theme of ['light', 'dark', 'light']) {
+        app.setTheme(theme);
+        assert.equal(root.dataset.theme, theme);
+        assert.equal(app.themeSelect.value, theme);
+        assert.equal(values.get('multiChatsTheme'), theme);
+        assert.deepEqual(Array.from(app.chats, chat => chat.id), [4, 7]);
+        assert.equal(rendered.length, 2);
+        assert.equal(new URL(app.chats[1].embedUrl).searchParams.get('dark_theme'), theme === 'dark' ? '1' : '0');
+        assert.equal(JSON.parse(values.get('multiChats')).length, 2);
+    }
+});
