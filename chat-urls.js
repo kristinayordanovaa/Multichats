@@ -25,7 +25,7 @@ function parseStreamUrl(input, hostname = 'localhost') {
         else id = path.match(/^\/(?:live|embed|v)\/([^/]+)$/)?.[1];
         if (!id || !/^[a-zA-Z0-9_-]{11}$/.test(id)) return null;
         return {platform: 'YouTube', channel: id, color: '#b91c1c',
-            embedUrl: `https://www.youtube.com/live_chat?v=${id}&embed_domain=${encodeURIComponent(hostname)}`,
+            embedUrl: `https://www.youtube.com/live_chat?v=${id}&embed_domain=${encodeURIComponent(hostname)}&dark_theme=1`,
             popoutUrl: `https://www.youtube.com/live_chat?v=${id}`};
     }
     if (['kick.com', 'www.kick.com'].includes(host)) {

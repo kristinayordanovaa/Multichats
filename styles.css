@@ -480,3 +480,8 @@ body {
 .app-toolbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; padding: 22px 80px 18px 20px; color: #d5ddff; }
 .app-toolbar h1 { font-size: 1.15rem; }
 .container { padding-top: 70px; }
+
+/* YouTube can render a transparent chat surface while using light text.
+   Keep its backing surface dark and request the matching YouTube theme. */
+.youtube-chat { background: #0f0f0f; color-scheme: dark; }
+.youtube-chat .chat-iframe { background: #0f0f0f; color-scheme: dark; }

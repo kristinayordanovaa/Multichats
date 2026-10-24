@@ -49,3 +49,14 @@ test('legacy storage is rebuilt with current host and popup URLs', () => {
     assert.equal(restoreChat({platform: 'Unknown', channel: 'user'}, 'host'), null);
     assert.equal(restoreChat(null, 'host'), null);
 });
+
+test('YouTube theme is explicit for new and legacy chats', () => {
+    const input = 'https://www.youtube.com/watch?v=3wGwyg-IvnQ';
+    const fresh = parse(input, 'preview.example');
+    const restored = restoreChat({platform: 'YouTube', channel: '3wGwyg-IvnQ', embedUrl: input}, 'preview.example');
+    for (const chat of [fresh, restored]) {
+        const url = new URL(chat.embedUrl);
+        assert.equal(url.searchParams.get('dark_theme'), '1');
+        assert.equal(url.searchParams.get('embed_domain'), 'preview.example');
+    }
+});

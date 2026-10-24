@@ -163,6 +163,7 @@ class MultiChats {
         chatCard.appendChild(header);
         const content = document.createElement('div');
         content.className = 'chat-iframe-container';
+        if (chat.platform === 'YouTube') content.classList.add('youtube-chat');
         if (chat.embedUrl) {
             const iframe = document.createElement('iframe');
             iframe.className = 'chat-iframe';
