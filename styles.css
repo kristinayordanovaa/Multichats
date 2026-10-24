@@ -461,3 +461,39 @@ body {
         height: 45px;
     }
 }
+
+/* Keep every chat reachable, including on small screens and large grids. */
+.chats-container { overflow: auto; grid-auto-rows: minmax(420px, 1fr); }
+.chat-card { min-height: 420px; min-width: 0; }
+.chat-info { min-width: 0; }
+.chat-channel { overflow-wrap: anywhere; }
+#streamInput { min-width: 0; width: 100%; }
+.settings-panel:not(.open) { visibility: hidden; }
+.settings-btn { top: 15px; }
+.settings-panel.open { z-index: 1002; }
+.btn-popout { text-decoration: none; }
+.chat-notice { padding: 28px; color: #333; line-height: 1.6; }
+.storage-status:not(:empty) { position: fixed; bottom: 10px; left: 10px; right: 10px; padding: 12px; background: #fff4cc; color: #332700; z-index: 1003; }
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.app-toolbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; padding: 22px 80px 18px 20px; color: #d5ddff; }
+.app-toolbar h1 { font-size: 1.15rem; }
+.container { padding-top: 70px; }
+
+/* Match the backing surface and inherited color scheme to each embed theme. */
+:root { color-scheme: dark; --page: #1a1a2e; --panel: #202235; --surface: #0f0f0f; --text: #f5f5f5; --muted: #c5c9d8; --field: #151625; --border: #52566e; --link: #c5d0ff; }
+:root[data-theme="light"] { color-scheme: light; --page: #eef0f6; --panel: #fff; --surface: #fff; --text: #111; --muted: #333; --field: #fff; --border: #777; --link: #253b92; }
+body { background: var(--page); color: var(--text); }
+.settings-panel, .chat-card { background: var(--panel); }
+.chat-iframe-container, .chat-iframe { background: var(--surface); color-scheme: inherit; }
+.app-toolbar, .empty-state, .chat-notice { color: var(--text); }
+.settings-header h2, .feedback-section h3, .info-section h3, .help-text p { color: var(--text); }
+.feedback-section p, .info-section p, .help-text { color: var(--muted); }
+.help-text, .info-section { background: var(--field); }
+#streamInput, #feedbackText, #chatTheme { background: var(--field); color: var(--text); border: 2px solid var(--border); }
+#streamInput::placeholder, #feedbackText::placeholder { color: var(--muted); }
+.btn-close { background: var(--field); color: var(--text); }
+.theme-control { margin-bottom: 24px; }
+.theme-control label { display: block; margin-bottom: 8px; font-weight: 600; }
+.theme-control select { width: 100%; padding: 12px; border-radius: 8px; font: inherit; }
+.theme-control p { color: var(--muted); font-size: .85rem; line-height: 1.5; margin-top: 8px; }
