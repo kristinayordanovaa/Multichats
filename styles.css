@@ -461,3 +461,22 @@ body {
         height: 45px;
     }
 }
+
+/* Keep every chat reachable, including on small screens and large grids. */
+.chats-container { overflow: auto; grid-auto-rows: minmax(420px, 1fr); }
+.chat-card { min-height: 420px; min-width: 0; }
+.chat-info { min-width: 0; }
+.chat-channel { overflow-wrap: anywhere; }
+#streamInput { min-width: 0; width: 100%; }
+.settings-panel:not(.open) { visibility: hidden; }
+.settings-btn { top: 15px; }
+.settings-panel.open { z-index: 1002; }
+.btn-popout { text-decoration: none; }
+.chat-notice { padding: 28px; color: #333; line-height: 1.6; }
+.chat-fallback { padding: 10px; color: #d5ddff; font-size: .85rem; }
+.storage-status:not(:empty) { position: fixed; bottom: 10px; left: 10px; right: 10px; padding: 12px; background: #fff4cc; color: #332700; z-index: 1003; }
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.app-toolbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; padding: 22px 80px 18px 20px; color: #d5ddff; }
+.app-toolbar h1 { font-size: 1.15rem; }
+.container { padding-top: 70px; }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico" sizes="48x48">
     <link rel="icon" href="favicon.svg" sizes="any" type="image/svg+xml">
@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
-    
+
     <!-- Primary SEO Meta Tags -->
     <title>Stream Multichat - Combine Livestream Chats in One Window</title>
     <meta name="title" content="Stream Multichat - Combine Livestream Chats in One Window">
@@ -19,10 +19,10 @@
     <meta name="keywords" content="streamer multichat, livestream multichat, twitch chat, youtube chat, kick chat, tiktok live chat, multi chat, chat aggregator, stream chat viewer, multiple chats, streaming tool">
     <meta name="author" content="Stream Multichat">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://streammultichat.app/">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://streammultichat.app/">
@@ -30,21 +30,21 @@
     <meta property="og:description" content="Combine multiple livestream chats in one view. The ultimate streamer multichat tool for Twitch, YouTube, Kick, and TikTok.">
     <meta property="og:image" content="https://streammultichat.app/og-image.png">
     <meta property="og:site_name" content="Stream Multichat">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://streammultichat.app/">
     <meta property="twitter:title" content="Stream Multichat - Streamer Multichat | Livestream Multichat Aggregator">
     <meta property="twitter:description" content="Combine multiple livestream chats in one view. The ultimate streamer multichat tool for Twitch, YouTube, Kick, and TikTok.">
     <meta property="twitter:image" content="https://streammultichat.app/og-image.png">
-    
+
     <!-- Additional SEO -->
     <meta name="theme-color" content="#667eea">
     <meta name="application-name" content="Stream Multichat">
     <meta name="apple-mobile-web-app-title" content="Stream Multichat">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
     {
@@ -63,7 +63,7 @@
         },
         "featureList": [
             "Twitch chat integration",
-            "YouTube live chat integration", 
+            "YouTube live chat integration",
             "Kick chat integration",
             "TikTok live chat integration",
             "Multiple chat aggregation",
@@ -73,15 +73,16 @@
         "keywords": "streamer multichat, livestream multichat, chat aggregator, twitch chat, youtube chat"
     }
     </script>
-    
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7924762592258504"
          crossorigin="anonymous"></script>
-    
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button id="settingsToggle" class="settings-btn" title="Settings">
+    <header class="app-toolbar"><h1>Stream Multichat</h1></header>
+    <button id="settingsToggle" class="settings-btn" title="Settings" aria-label="Settings" aria-controls="settingsPanel" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M12 1v6m0 6v6m0-6h6m-6 0H6"></path>
@@ -93,13 +94,13 @@
         <div class="settings-content">
             <div class="settings-header">
                 <h2>🎮 MultiChats Settings</h2>
-                <button id="closeSettings" class="btn-close">✕</button>
+                <button id="closeSettings" class="btn-close" aria-label="Close settings">✕</button>
             </div>
             <div class="input-group">
-                <input 
-                    type="text" 
-                    id="streamInput" 
-                    placeholder="Paste Twitch, YouTube, or Kick stream/chat URL..."
+                <input
+                    type="text"
+                    id="streamInput" aria-label="Stream or chat URL"
+                    placeholder="Paste Twitch, YouTube, Kick, or TikTok URL..."
                     autocomplete="off"
                 >
                 <button id="addChatBtn" class="btn-primary">Add Chat</button>
@@ -109,39 +110,41 @@
                 <ul>
                     <li>Twitch: twitch.tv/channel or twitch.tv/popout/channel/chat</li>
                     <li>YouTube: youtube.com/watch?v=VIDEO_ID or youtube.com/live_chat?v=VIDEO_ID</li>
-                    <li>Kick: kick.com/channel or kick.com/channel/chatroom</li>
-                    <li>TikTok: tiktok.com/@username/live</li>
+                    <li>Kick (opens separately): kick.com/channel or kick.com/channel/chatroom</li>
+                    <li>TikTok (opens separately): tiktok.com/@username/live</li>
                 </ul>
             </div>
 
             <div class="feedback-section">
                 <h3>📝 Send Feedback</h3>
                 <p>Found a bug or have a suggestion?</p>
-                <textarea id="feedbackText" placeholder="Describe the issue or suggestion..."></textarea>
+                <textarea id="feedbackText" aria-label="Feedback" placeholder="Describe the issue or suggestion..."></textarea>
                 <button id="sendFeedbackBtn" class="btn-feedback">Send Feedback</button>
-                <div id="feedbackStatus" class="feedback-status"></div>
+                <div id="feedbackStatus" role="status" class="feedback-status"></div>
             </div>
 
             <div class="info-section">
                 <h3>ℹ️ About Chat Interaction</h3>
                 <p>This app is designed for <strong>viewing multiple chats</strong> simultaneously.</p>
-                <p>Most streaming platforms (Twitch, YouTube, Kick) block chat interaction when embedded for security reasons. 
-                
+                <p>Twitch and YouTube chats can appear here. Sign-in and interaction depend on the platform and browser. YouTube embedded chat is unavailable on mobile web. Kick and TikTok open separately. Use each card’s open link if an embedded chat is unavailable.</p>
+
             </div>
         </div>
     </div>
 
+    <div id="storageStatus" class="storage-status" role="status"></div>
     <div class="container">
 
         <div id="chatsContainer" class="chats-container">
             <div class="empty-state">
                 <div class="empty-icon">💬</div>
                 <h2>No chats added yet</h2>
-                <p>Add your first livestream chat URL above to get started</p>
+                <p>Open Settings to add your first livestream chat URL</p>
             </div>
         </div>
     </div>
 
+    <script src="chat-urls.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
