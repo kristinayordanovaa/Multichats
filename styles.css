@@ -473,7 +473,6 @@ body {
 .settings-panel.open { z-index: 1002; }
 .btn-popout { text-decoration: none; }
 .chat-notice { padding: 28px; color: #333; line-height: 1.6; }
-.chat-fallback { padding: 10px; color: #d5ddff; font-size: .85rem; }
 .storage-status:not(:empty) { position: fixed; bottom: 10px; left: 10px; right: 10px; padding: 12px; background: #fff4cc; color: #332700; z-index: 1003; }
 :focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
@@ -488,7 +487,6 @@ body { background: var(--page); color: var(--text); }
 .settings-panel, .chat-card { background: var(--panel); }
 .chat-iframe-container, .chat-iframe { background: var(--surface); color-scheme: inherit; }
 .app-toolbar, .empty-state, .chat-notice { color: var(--text); }
-.chat-fallback { color: var(--link); }
 .settings-header h2, .feedback-section h3, .info-section h3, .help-text p { color: var(--text); }
 .feedback-section p, .info-section p, .help-text { color: var(--muted); }
 .help-text, .info-section { background: var(--field); }

@@ -194,16 +194,10 @@ class MultiChats {
         } else {
             const notice = document.createElement('p');
             notice.className = 'chat-notice';
-            notice.textContent = `${chat.platform} chat is available in a separate tab. Use the open button above.`;
+            notice.textContent = `${chat.platform} chat preview is currently unavailable.`;
             content.appendChild(notice);
         }
-        const fallback = document.createElement('a');
-        fallback.className = 'chat-fallback';
-        fallback.href = chat.popoutUrl;
-        fallback.target = '_blank';
-        fallback.rel = 'noopener noreferrer';
-        fallback.textContent = `Open on ${chat.platform} if chat is unavailable`;
-        chatCard.append(content, fallback);
+        chatCard.appendChild(content);
 
         this.chatsContainer.appendChild(chatCard);
     }
